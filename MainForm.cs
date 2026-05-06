@@ -16,6 +16,8 @@ namespace NotificationApp
         private int _emptyMessageCounter = 0;
         private int _successCounter = 0;
         private int _smsCounter = 0;
+        private int _macbookMessageIndex = 0;
+        private int _dinaCoffeeIndex = 0;
 
         public MainForm(IEnumerable<INotificationService> services, ILogger logger,Func<INotificationService, NotificationSender> senderFactory)
         {
@@ -70,22 +72,7 @@ namespace NotificationApp
 
             if (string.IsNullOrEmpty(message) || message == "Введите сообщение...")
             {
-                _emptyMessageCounter++;
-
-                if (_emptyMessageCounter >= 2)
-                {
-                    string easter = " Тимурка-мурка";
-                    MessageBox.Show(easter, "А вот и пасхалка", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    _logger.LogInfo($"[ПАСХАЛКА] {easter}");
-                    _emptyMessageCounter = 0;
-                }
-                else
-                {
-                    string error = "Сообщение не может быть пустым.";
-                    MessageBox.Show(error, "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    _logger.LogError(error);
-                }
-
+                await ShowEasterEggs("", "", true); 
                 return;
             }
 
@@ -113,7 +100,7 @@ namespace NotificationApp
                     _smsCounter++;
                 }
 
-                await ShowEasterEggs(selectedService, message);
+                await ShowEasterEggs(selectedService, message, false); 
 
                 txtMessage.Clear();
                 txtMessage.Focus();
@@ -136,8 +123,28 @@ namespace NotificationApp
             _logger.LogInfo($"Пользователь выбрал сервис: {selected}");
         }
 
-        private async Task ShowEasterEggs(string serviceType, string message)
+        private async Task ShowEasterEggs(string serviceType, string message, bool isEmptyAttempt)
         {
+            if (isEmptyAttempt)
+            {
+                _emptyMessageCounter++;
+
+                if (_emptyMessageCounter >= 2)
+                {
+                    string easter = " Тимурка-мурка";
+                    MessageBox.Show(easter, "А вот и пасхалка", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    _logger.LogInfo($"[ПАСХАЛКА] {easter}");
+                    _emptyMessageCounter = 0;
+                }
+                else
+                {
+                    string error = "Сообщение не может быть пустым.";
+                    MessageBox.Show(error, "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    _logger.LogError(error);
+                }
+                return;
+            }
+
             if (_successCounter == 2)
             {
                 string egg = "Артём говорит отстооооооой!";
@@ -182,6 +189,35 @@ namespace NotificationApp
 
                 MessageBox.Show(egg, "Системное сообщение", MessageBoxButtons.OK,MessageBoxIcon.Information);
 
+                await Task.Delay(100);
+            }
+
+            if (_successCounter % 3 == 0 && _successCounter > 0)
+            {
+                string egg;
+
+                if (_macbookMessageIndex % 2 == 0)
+                {
+                    egg = "Каждый раз MacBook выкидывать - конечно дорого! Попробуйте заряжать!";
+                }
+                else
+                {
+                    egg = "Артём Алексеевич расстроен: 'Я ради этого проекта 5 MacBook'ов выкинул!'";
+                }
+
+                _macbookMessageIndex++;
+
+                _logger.LogInfo($"[ПАСХАЛКА] {egg}");
+                MessageBox.Show(egg, "Полезные советы, не просили и ладно", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                await Task.Delay(100);
+            }
+
+            if (message.ToLower().Contains("кофе") || message.ToLower().Contains("дина") || message.ToLower().Contains("сергеевна"))
+            {
+                string egg = "Дина Сергеевна + кофе = успешный проект";
+
+                _logger.LogInfo($"[ПАСХАЛКА] {egg}");
+                MessageBox.Show(egg, "Дина Сергеевна одобряет", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 await Task.Delay(100);
             }
         }

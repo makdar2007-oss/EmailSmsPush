@@ -1,4 +1,5 @@
 ﻿using System.Windows.Forms;
+using System.Drawing;
 
 namespace NotificationApp
 {
@@ -43,6 +44,8 @@ namespace NotificationApp
             // 
             this.txtMessage.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.txtMessage.BackColor = System.Drawing.Color.Azure;
+            this.txtMessage.ForeColor = System.Drawing.Color.Gray;
             this.txtMessage.Location = new System.Drawing.Point(51, 50);
             this.txtMessage.Margin = new System.Windows.Forms.Padding(5);
             this.txtMessage.Name = "txtMessage";
@@ -55,6 +58,7 @@ namespace NotificationApp
             // 
             // cmbServiceType
             // 
+            this.cmbServiceType.BackColor = System.Drawing.Color.Azure;
             this.cmbServiceType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cmbServiceType.Location = new System.Drawing.Point(51, 117);
             this.cmbServiceType.Margin = new System.Windows.Forms.Padding(5);
@@ -65,14 +69,16 @@ namespace NotificationApp
             // 
             // btnSend
             // 
-            this.btnSend.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnSend.Location = new System.Drawing.Point(343, 117);
+            this.btnSend.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left;
+            this.btnSend.AutoSize = true;
+            this.btnSend.BackColor = System.Drawing.Color.Azure;
+            this.btnSend.Location = new System.Drawing.Point(315, 117);
             this.btnSend.Margin = new System.Windows.Forms.Padding(5);
             this.btnSend.Name = "btnSend";
-            this.btnSend.Size = new System.Drawing.Size(223, 47);
+            this.btnSend.Size = new System.Drawing.Size(190, 33);
             this.btnSend.TabIndex = 2;
             this.btnSend.Text = "Отправить уведомление";
-            this.btnSend.UseVisualStyleBackColor = true;
+            this.btnSend.UseVisualStyleBackColor = false;
             this.btnSend.Click += new System.EventHandler(this.BtnSend_Click);
             // 
             // rtbLog
@@ -80,7 +86,8 @@ namespace NotificationApp
             this.rtbLog.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.rtbLog.BackColor = System.Drawing.Color.WhiteSmoke;
+            this.rtbLog.BackColor = System.Drawing.Color.Azure;
+            this.rtbLog.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
             this.rtbLog.Location = new System.Drawing.Point(51, 200);
             this.rtbLog.Margin = new System.Windows.Forms.Padding(5);
             this.rtbLog.Name = "rtbLog";
@@ -112,6 +119,7 @@ namespace NotificationApp
             this.Controls.Add(this.txtMessage);
             this.Controls.Add(this.pictureBox1);
             this.Margin = new System.Windows.Forms.Padding(5);
+            this.MinimumSize = new System.Drawing.Size(700, 500);
             this.Name = "MainForm";
             this.Text = "Уведомлялки йоу";
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
